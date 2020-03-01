@@ -16,14 +16,25 @@ public class goods {
     GoodsService goodsService;
 
     @GetMapping("")
-    public List<Good> test(String type,Integer pages) {
-        List<Good> selectedGoods = goodsService.selectGoods(type,pages);
-        return selectedGoods;
+    public List<Good> mainGoods(String type,Integer pages) {
+        return goodsService.selectGoods(type,pages);
     }
 
-    @GetMapping("/all")
+    /*@GetMapping("/all")
     public List<Good> all() {
         List<Good> allGoods = goodsService.getAllGoods();
         return allGoods;
+    }*/
+
+    @GetMapping("/detail")
+    public Good selectGoodById(Integer id) {
+        return goodsService.selectGoodById(id);
+    }
+
+    @GetMapping("/random")
+    public List<Good> randomGoods(Integer page) {
+        return goodsService.randomGoods(page);
     }
 }
+
+

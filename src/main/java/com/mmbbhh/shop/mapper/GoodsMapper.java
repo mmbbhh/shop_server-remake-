@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface GoodsMapper {
-    List<Good> selectGoods(String type,Integer start,Integer end);
-    List<Good> getAllGoods();
+    List<Good> mainGoods(String type,Integer start,Integer end);
+    //List<Good> getAllGoods();
+    Good selectGoodById(Integer id);
+    List<Good> randomGoods();
 }
