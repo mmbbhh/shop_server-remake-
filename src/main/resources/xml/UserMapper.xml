@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmbbhh.shop.mapper.UserMapper">
+    <select id="loadUserByUsername" resultType="com.mmbbhh.shop.model.User">
+        SELECT * FROM m_shop_user WHERE user_name=#{username}
+    </select>
+    <select id="getUserRolesByUid" resultType="com.mmbbhh.shop.model.Role">
+        SELECT * FROM m_shop_role r,m_shop_user_role ur WHERE r.id=ur.rid AND ur.uid=#{id}
+    </select>
+</mapper>
