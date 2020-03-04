@@ -3,10 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mmbbhh.shop.mapper.UserMapper">
-    <select id="loadUserByUsername" resultType="com.mmbbhh.shop.model.User">
+    <select id="loadUserByUsername" resultType="com.mmbbhh.shop.model.UserDetail">
         SELECT * FROM m_shop_user WHERE user_name=#{username}
     </select>
     <select id="getUserRolesByUid" resultType="com.mmbbhh.shop.model.Role">
         SELECT * FROM m_shop_role r,m_shop_user_role ur WHERE r.id=ur.rid AND ur.uid=#{id}
     </select>
+    <insert id="add_user" parameterType="com.mmbbhh.shop.model.User">
+        INSERT INTO m_shop_user(user_name, user_pwd, user_phone, user_sex, enabled, locked)
+        VALUES (#{user_name},#{user_pwd},#{user_phone},#{user_sex},1,0)
+    </insert>
+    <select id="user_num" resultType="int">
+        select COUNT(*) from m_shop_user where user_name = #{name}
+    </select>
+    <insert id="add_user_role">
+        insert INTO m_shop_user_role(uid,rid)
+        SELECT id,3 FROM m_shop_user WHERE user_name = #{name}
+    </insert>
 </mapper>
