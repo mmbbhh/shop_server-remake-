@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.mmbbhh.shop.model.User;
 import com.mmbbhh.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +22,13 @@ public class resign {
             user.setUser_phone(tel);
             user.setUser_pwd(password);
             user.setUser_sex(sex);
-            userService.add_user(user);
-            json.put("state", 1);
-            json.put("msg", "注册成功");
+            if (userService.add_user(user)) {
+                json.put("state", 1);
+                json.put("msg", "注册成功");
+            } else {
+                json.put("state", 0);
+                json.put("msg", "注册失败");
+            }
         } else {
             json.put("state", 0);
             json.put("msg", "用户已存在");

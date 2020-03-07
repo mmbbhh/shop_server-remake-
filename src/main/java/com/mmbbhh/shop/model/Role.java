@@ -1,7 +1,9 @@
 package com.mmbbhh.shop.model;
 
+import java.io.Serializable;
+
 //用户权限
-public class Role{
+public class Role implements Serializable {
     private Integer id;
     private String name;
     private String nameZh;

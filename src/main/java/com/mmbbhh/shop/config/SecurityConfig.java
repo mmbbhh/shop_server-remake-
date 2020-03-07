@@ -21,6 +21,7 @@ import org.springframework.security.web.firewall.HttpFirewall;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -50,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/category/**").permitAll()
                 .antMatchers("/goods/**").permitAll()
                 .antMatchers("/resign").permitAll()
+                .antMatchers("/static/**").permitAll()
                 .antMatchers("/collect/**").access("hasAnyRole('admin','user')")
+                .antMatchers("/profile_upload").access("hasAnyRole('admin','user')")
                 /*.antMatchers("/admin/**").hasRole("admin")
                 .antMatchers("/db/**").hasRole("dba")
                 .antMatchers("/user/**").hasRole("user")*/
@@ -65,12 +68,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
                         Object principal = authentication.getPrincipal();
+
+                        //判断用户头像目录是否存在
+                        String realPath = httpServletRequest.getSession().getServletContext().getRealPath("/profile_img/");
+                        //String format = sdf.format(new Date());
+                        File folder = new File(realPath + authentication.getName());
+
                         PrintWriter out = httpServletResponse.getWriter();
                         httpServletResponse.setStatus(200);
                         Map<String, Object> map = new HashMap<>();
                         map.put("state", 200);
                         map.put("message", principal);
                         map.put("msg","登陆成功");
+
+                        if (!folder.isDirectory()) {
+                            map.put("profile_img", 0);
+                        } else {
+                            map.put("profile_img", httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + "/profile_img/" + authentication.getName() + "/" + authentication.getName() + ".jpg");
+                        }
+
                         ObjectMapper om = new ObjectMapper();
                         out.write(om.writeValueAsString(map));
                         out.flush();

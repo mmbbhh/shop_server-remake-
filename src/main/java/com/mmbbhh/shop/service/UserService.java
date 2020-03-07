@@ -1,6 +1,7 @@
 package com.mmbbhh.shop.service;
 
 import com.mmbbhh.shop.mapper.UserMapper;
+import com.mmbbhh.shop.model.Good;
 import com.mmbbhh.shop.model.User;
 import com.mmbbhh.shop.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -28,14 +31,35 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void add_user(User user) {
+    //添加用户
+    public Boolean add_user(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setUser_pwd(passwordEncoder.encode(user.getUser_pwd()));
-        userMapper.add_user(user);
-        userMapper.add_user_role(user.getUser_name());
+        return userMapper.add_user(user) != 0 && userMapper.add_user_role(user.getUser_name()) != 0;
     }
 
+    //判断用户名是否存在
     public boolean ifUserExist(String name) {
         return userMapper.user_num(name) == 0;
+    }
+
+    //判断是否收藏该商品
+    public boolean ifLike(String name, int id) {
+        return userMapper.if_like(name, id) == 0;
+    }
+
+    //添加收藏
+    public Boolean add_collect(String name, int id) {
+        return userMapper.add_collect(name, id) != 0;
+    }
+
+    //取消收藏
+    public Boolean delete_collect(String name, int id) {
+        return userMapper.delete_collect(name, id) != 0;
+    }
+
+    //获取所有收藏
+    public List<Good> get_collections(String name) {
+        return userMapper.get_collections(name);
     }
 }
