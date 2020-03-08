@@ -84,7 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         if (!folder.isDirectory()) {
                             map.put("profile_img", 0);
                         } else {
-                            map.put("profile_img", httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + "/profile_img/" + authentication.getName() + "/" + authentication.getName() + ".jpg");
+                            map.put("profile_img", /*httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort()*/
+                                    "http://123.57.217.239:3000/newshop/profile_img/" + authentication.getName() + "/" + authentication.getName() + ".jpg");
                         }
 
                         ObjectMapper om = new ObjectMapper();

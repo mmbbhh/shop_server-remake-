@@ -27,10 +27,10 @@ public class profile_upload {
         //String oldName = uploadFile.getOriginalFilename();
         String name = user + ".jpg";
         try {
-            //改名防重名并保存到该目录
             uploadFile.transferTo(new File(folder, name));
             json.put("state", 1);
-            json.put("url", req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/profile_img/" + user + "/" + name);
+            json.put("url",/* req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + */
+                    "http://123.57.217.239:3000/newshop/profile_img/" + user + "/" + name);
             return json;
         } catch (IOException e) {
             e.printStackTrace();

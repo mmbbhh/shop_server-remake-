@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .maxAge(1800)
-                .allowedOrigins("http://127.0.0.1:8080")
+                .allowedOrigins("http://123.57.217.239")
                 .allowCredentials(true);
     }
 
